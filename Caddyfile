@@ -1,0 +1,6 @@
+# Caddy mengurus sertifikat HTTPS (Let's Encrypt) secara otomatis untuk alamat di DOMAIN.
+# Syarat: port 80 dan 443 terbuka, dan DOMAIN mengarah ke IP server ini.
+{$DOMAIN} {
+    encode gzip
+    reverse_proxy app:80
+}

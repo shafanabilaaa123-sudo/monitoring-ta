@@ -1,0 +1,44 @@
+# Blueprint Render: membuat layanan web dari Dockerfile di repository ini.
+# Database memakai Neon (PostgreSQL gratis), alamatnya diisi di dashboard Render (DB_URL).
+services:
+  - type: web
+    name: monitoring-ta
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /login
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_NAME
+        value: Monitoring TA
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        sync: false          # isi di dashboard: alamat koneksi dari Neon
+      - key: APP_KEY_BASE
+        generateValue: true  # dibuat acak oleh Render, tetap sama selamanya
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: Koordinator Prodi
+      - key: KODE_DAFTAR_DOSEN
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false          # dari .env laptop setelah php artisan push:keys
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        value: mailto:admin@monitoring-ta.local
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
